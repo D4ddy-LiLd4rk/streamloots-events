@@ -1,0 +1,32 @@
+{
+  "name": "streamloots-events",
+  "version": "0.0.1",
+  "description": "Unofficial package to subscribe streamloots events.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/D4ddy-LiLd4rk/streamloots-events.git"
+  },
+  "keywords": [
+    "streamloots"
+  ],
+  "author": "D4ddy-LiLd4rk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/D4ddy-LiLd4rk/streamloots-events/issues"
+  },
+  "homepage": "https://github.com/D4ddy-LiLd4rk/streamloots-events#readme",
+  "devDependencies": {
+    "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "@types/node": "^13.7.2",
+    "web-request": "^1.0.7"
+  }
+}
