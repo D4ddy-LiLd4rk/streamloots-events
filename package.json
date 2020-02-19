@@ -1,11 +1,12 @@
 {
   "name": "streamloots-events",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Unofficial package to subscribe streamloots events.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "prepublish": "npm run build",
+    "start": "node dist/index.js",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
