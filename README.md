@@ -7,7 +7,9 @@
 
 > Simplifies subscribing Streamloots-Events with TypeScript
 
-This package makes it easier to listen for Streamloots-Events such as card redemptions using TypeScript. It wraps the popular web-request package, extending it with an interface for Streamloots.
+This package makes it easier to listen for Streamloots-Events such as card redemptions using [TypeScript](http://www.typescriptlang.org/). It wraps the popular [web-request](https://www.npmjs.com/package/web-request) package, extending it with an interface for [Streamloots](https://www.streamloots.com/).
+
+> Disclaimer: This is not an official supported API of Streamloots! This is more of a clever workaround.
 
 ## Examples
 
@@ -82,3 +84,5 @@ $ tsc index.ts typings/node/node.d.ts --target es6 --module commonjs
 $ node index.js
 <!doctype html><html ...
 ```
+
+Special Thanks to [SaviorXTanren](https://github.com/SaviorXTanren/streamloots-service-sample) for his inspirational code over on GitHub.
