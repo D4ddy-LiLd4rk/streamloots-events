@@ -15,7 +15,7 @@ This package makes it easier to listen for Streamloots-Events such as card redem
 
 Get redeemed card...
 ```js
-const streamlootsStream = StreamlootsRequest.listen("Your-Token-ID");
+const streamlootsStream = StreamlootsRequest.listen("Your-Alert-ID");
 
 streamlootsStream
   .on('redemption', cardObj => {
@@ -25,7 +25,7 @@ streamlootsStream
 
 Get purchased chests...
 ```js
-const streamlootsStream = StreamlootsRequest.listen("Your-Token-ID");
+const streamlootsStream = StreamlootsRequest.listen("Your-Alert-ID");
 
 streamlootsStream
   .on('purchase', purchaseObj => {
@@ -35,7 +35,7 @@ streamlootsStream
 
 Get gifted chests...
 ```js
-const streamlootsStream = StreamlootsRequest.listen("Your-Token-ID");
+const streamlootsStream = StreamlootsRequest.listen("Your-Alert-ID");
 
 streamlootsStream
   .on('gift', giftObj => {
@@ -64,7 +64,7 @@ Write some code...
 ```js
 import * as StreamlootsRequest from "streamloots-events";
 
-const streamlootsStream = StreamlootsRequest.listen("Your-Token-ID");
+const streamlootsStream = StreamlootsRequest.listen("Your-Alert-ID");
 
 streamlootsStream
   .on('gift', giftObj => {
@@ -84,5 +84,21 @@ $ tsc index.ts typings/node/node.d.ts --target es6 --module commonjs
 $ node index.js
 <!doctype html><html ...
 ```
+
+To use the sample with your own account, do the following steps:
+
+* Head over to Streamloots: https://www.streamloots.com/
+
+* Go to Alerts
+
+  ![Alerts](https://i.imgur.com/JvzshSF.png)
+
+* Click on the grayed out box that says "Click here to show URL"
+
+  ![Alert Box](https://i.imgur.com/2z4PnfW.png)
+
+* Copy the GUID value at the end of your alerts URL, this is your alerts ID. The format of the URL is: https://widgets.streamloots.com/alerts/< GUID >
+
+  ![Alert Box](https://i.imgur.com/4LhASIv.png)
 
 Special Thanks to [SaviorXTanren](https://github.com/SaviorXTanren/streamloots-service-sample) for his inspirational code over on GitHub.
