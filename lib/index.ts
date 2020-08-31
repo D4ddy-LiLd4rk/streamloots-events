@@ -9,13 +9,15 @@ import { StreamlootsEvents } from "./StreamlootsEvents";
 export function listen(streamlootsId: string, options?: RequestOptions, content?: any): StreamlootsRequest<void> {
   let instance: StreamlootsRequest<void> = stream(`https://widgets.streamloots.com/alerts/${streamlootsId}/media-stream`, options, content);
 
+  let jsonStr = "";
   instance.response = new Promise<Response<void>>((resolve, reject) => {
     instance
       .on('data', chunk => {
         try {
-          if (chunk.length > 2) {
-            const jsonStr = chunk.toString().substring(chunk.toString().indexOf('{') - 1);
-            let streamlootsEvent: IStreamloots = JSON.parse(jsonStr);
+            jsonStr += chunk.toString(); // we add the chunk to the whole object
+            jsonStr = jsonStr.substring(jsonStrs.indexOf('{') - 1); // this would be needed only with the first chunk, but we don't know when the 1st comes
+            let streamlootsEvent: IStreamloots = JSON.parse(jsonStr); // we parse and we expect errors if the object is not formed yet
+            jsonStr = ""; // reset the string, because there was no errors
             switch (streamlootsEvent.data.type) {
               case StreamlootsEvents.Redemption:
                 instance.emit(StreamlootsEvents.Redemption, new StreamlootsCard(streamlootsEvent));
@@ -29,10 +31,9 @@ export function listen(streamlootsId: string, options?: RequestOptions, content?
                 break;
             }
 
-          }
           resolve();
         } catch (err) {
-          reject(new RequestError(err, instance));
+          // we keep going getting chunks until there are no errors
         }
       })
       .on('error', err => reject(new RequestError(err, instance)))
