@@ -8,34 +8,38 @@ import { StreamlootsEvents } from "./StreamlootsEvents";
 
 export function listen(streamlootsId: string, options?: RequestOptions, content?: any): StreamlootsRequest<void> {
   let instance: StreamlootsRequest<void> = stream(`https://widgets.streamloots.com/alerts/${streamlootsId}/media-stream`, options, content);
+  let alertData: string = "";
 
   instance.response = new Promise<Response<void>>((resolve, reject) => {
-    instance
-      .on('data', chunk => {
-        try {
-          if (chunk.length > 2) {
-            const jsonStr = chunk.toString().substring(chunk.toString().indexOf('{') - 1);
-            let streamlootsEvent: IStreamloots = JSON.parse(jsonStr);
+    instance.on('data', chunk => {
+      try {
+        if (chunk.length > 2) {
+          let jsonStr: string = chunk.toString();
+          if (jsonStr.startsWith("data:")) jsonStr = jsonStr.substring(chunk.toString().indexOf('{') - 1);
+          alertData += jsonStr;
+          if (jsonStr.trim().endsWith("}}")) {
+            let streamlootsEvent: IStreamloots = JSON.parse(alertData);
             switch (streamlootsEvent.data.type) {
               case StreamlootsEvents.Redemption:
                 instance.emit(StreamlootsEvents.Redemption, new StreamlootsCard(streamlootsEvent));
                 break;
               case StreamlootsEvents.Purchase:
-                if (streamlootsEvent.data.fields[0].name === StreamlootsEvents.Gift) {
+                if ((streamlootsEvent.data.fields[0].name).startsWith(StreamlootsEvents.Gift)) {
                   instance.emit(StreamlootsEvents.Gift, new StreamlootsGift(streamlootsEvent));
                 } else {
                   instance.emit(StreamlootsEvents.Purchase, new StreamlootsPurchase(streamlootsEvent));
                 }
                 break;
             }
-
+            alertData = "";
+            resolve();
           }
-          resolve();
-        } catch (err) {
-          reject(new RequestError(err, instance));
         }
-      })
-      .on('error', err => reject(new RequestError(err, instance)))
+      } catch (err) {
+        reject(new RequestError(err, instance));
+      }
+    })
+      .on('error', err => reject(new RequestError(err, instance)));
   });
 
   return instance;
@@ -53,5 +57,18 @@ export interface StreamlootsRequest<T> extends Request<void> {
 
 export { StreamlootsEvents };
 export { StreamlootsCard };
-export { StreamlootsGift }; 
+export { StreamlootsGift };
 export { StreamlootsPurchase };
+
+const streamlootsStream = listen("6883a1d8-e391-4091-8d21-dcf352153424");
+
+streamlootsStream
+  .on('gift', giftObj => {
+    console.log(giftObj.toString());
+  })
+  .on('purchase', purchaseObj => {
+    console.log(purchaseObj.toString());
+  })
+  .on('redemption', cardObj => {
+    console.log(cardObj.toString());
+  });
