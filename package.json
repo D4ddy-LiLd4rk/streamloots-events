@@ -1,6 +1,6 @@
 {
   "name": "streamloots-events",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Unofficial package to subscribe streamloots events.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
