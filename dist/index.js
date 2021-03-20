@@ -1,14 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.StreamlootsPurchase = exports.StreamlootsGift = exports.StreamlootsCard = exports.StreamlootsEvents = exports.listen = void 0;
 const web_request_1 = require("web-request");
 const StreamlootsCard_1 = require("./StreamlootsCard");
-exports.StreamlootsCard = StreamlootsCard_1.StreamlootsCard;
+Object.defineProperty(exports, "StreamlootsCard", { enumerable: true, get: function () { return StreamlootsCard_1.StreamlootsCard; } });
 const StreamlootsGift_1 = require("./StreamlootsGift");
-exports.StreamlootsGift = StreamlootsGift_1.StreamlootsGift;
+Object.defineProperty(exports, "StreamlootsGift", { enumerable: true, get: function () { return StreamlootsGift_1.StreamlootsGift; } });
 const StreamlootsPurchase_1 = require("./StreamlootsPurchase");
-exports.StreamlootsPurchase = StreamlootsPurchase_1.StreamlootsPurchase;
+Object.defineProperty(exports, "StreamlootsPurchase", { enumerable: true, get: function () { return StreamlootsPurchase_1.StreamlootsPurchase; } });
+const http_1 = require("http");
 const StreamlootsEvents_1 = require("./StreamlootsEvents");
-exports.StreamlootsEvents = StreamlootsEvents_1.StreamlootsEvents;
+Object.defineProperty(exports, "StreamlootsEvents", { enumerable: true, get: function () { return StreamlootsEvents_1.StreamlootsEvents; } });
+const node_net_1 = require("node:net");
 function listen(streamlootsId, options, content) {
     let instance = web_request_1.stream(`https://widgets.streamloots.com/alerts/${streamlootsId}/media-stream`, options, content);
     let alertData = "";
@@ -36,7 +39,7 @@ function listen(streamlootsId, options, content) {
                                 break;
                         }
                         alertData = "";
-                        resolve();
+                        resolve(new web_request_1.Response(instance, new http_1.IncomingMessage(new node_net_1.Socket()), (function () { })()));
                     }
                 }
             }
@@ -49,14 +52,3 @@ function listen(streamlootsId, options, content) {
     return instance;
 }
 exports.listen = listen;
-const streamlootsStream = listen("6883a1d8-e391-4091-8d21-dcf352153424");
-streamlootsStream
-    .on('gift', giftObj => {
-    console.log(giftObj.toString());
-})
-    .on('purchase', purchaseObj => {
-    console.log(purchaseObj.toString());
-})
-    .on('redemption', cardObj => {
-    console.log(cardObj.toString());
-});

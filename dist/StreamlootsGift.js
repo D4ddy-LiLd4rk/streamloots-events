@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.StreamlootsGift = void 0;
 const StreamlootsPurchase_1 = require("./StreamlootsPurchase");
 class StreamlootsGift extends StreamlootsPurchase_1.StreamlootsPurchase {
     constructor(event) {

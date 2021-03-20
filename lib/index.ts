@@ -5,6 +5,7 @@ import { StreamlootsPurchase } from "./StreamlootsPurchase";
 import { IncomingMessage } from "http";
 import { IStreamloots } from "./IStreamloots";
 import { StreamlootsEvents } from "./StreamlootsEvents";
+import { Socket } from "node:net";
 
 export function listen(streamlootsId: string, options?: RequestOptions, content?: any): StreamlootsRequest<void> {
   let instance: StreamlootsRequest<void> = stream(`https://widgets.streamloots.com/alerts/${streamlootsId}/media-stream`, options, content);
@@ -32,7 +33,7 @@ export function listen(streamlootsId: string, options?: RequestOptions, content?
                 break;
             }
             alertData = "";
-            resolve();
+            resolve(new Response(instance, new IncomingMessage(new Socket()), (function () { })()));
           }
         }
       } catch (err) {
@@ -59,16 +60,3 @@ export { StreamlootsEvents };
 export { StreamlootsCard };
 export { StreamlootsGift };
 export { StreamlootsPurchase };
-
-const streamlootsStream = listen("6883a1d8-e391-4091-8d21-dcf352153424");
-
-streamlootsStream
-  .on('gift', giftObj => {
-    console.log(giftObj.toString());
-  })
-  .on('purchase', purchaseObj => {
-    console.log(purchaseObj.toString());
-  })
-  .on('redemption', cardObj => {
-    console.log(cardObj.toString());
-  });

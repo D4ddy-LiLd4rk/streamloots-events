@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.StreamlootsCard = void 0;
 class StreamlootsCard {
     constructor(event) {
         this.imageURL = event.imageUrl;
